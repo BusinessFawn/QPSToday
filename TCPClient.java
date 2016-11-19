@@ -71,7 +71,7 @@ public class TCPClient {
                     serverMessage = in.readLine();
 
                     if (serverMessage != null && mMessageListener != null) {
-                        //call the method messageReceived from MyActivity class
+                        //call the method messageReceived from MainActivity class
                         mMessageListener.messageReceived(serverMessage);
                     }
                     serverMessage = null;
@@ -98,9 +98,9 @@ public class TCPClient {
 
     }
 
-    //Declare the interface. The method messageReceived(String message) will must be implemented in the MyActivity
+    //Declare the interface. The method messageReceived(String message) must be implemented in the MainActivity
     //class at on asynckTask doInBackground
     public interface OnMessageReceived {
-        public void messageReceived(String message);
+        void messageReceived(String message);
     }
 }

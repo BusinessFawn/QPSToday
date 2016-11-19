@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         editTextPort = new EditText(this);
         insidePopupButton = new Button(this);
         layoutOfPopup = new LinearLayout(this);
-        editTextIP.setPadding(0, 50, 0, 0);
+        editTextIP.setPadding(0, 25, 0, 0);
         insidePopupButton.setText("Send it!");
         editTextIP.setHint("127.0.0.1");
         editTextIP.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -140,13 +140,14 @@ public class MainActivity extends AppCompatActivity {
         layoutOfPopup.addView(editTextIP);
         layoutOfPopup.addView(editTextPort);
         layoutOfPopup.addView(insidePopupButton);
+        layoutOfPopup.setBackgroundColor(getResources().getColor(R.color.white));
 
     }
     public void popupInit() {
         submitTcp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupMessage.showAtLocation(view, Gravity.TOP, 0, 60);
+                popupMessage.showAtLocation(view, Gravity.CENTER, 0, 60);
                 popupMessage.setFocusable(true);
                 popupMessage.update();
                 submitStat = changerOne.getStatus() + ", " + changerTwo.getStatus() + ", "
