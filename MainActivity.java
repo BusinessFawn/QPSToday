@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         popupMessage.setContentView(layoutOfPopup);
     }
     static public void connectionStatus(int status) {
-        connectionStatus.setText(connectionStatusWords[status]);
+        //connectionStatus.setText(connectionStatusWords[status]);
     }
 
 
