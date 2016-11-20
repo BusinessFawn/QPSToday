@@ -10,22 +10,34 @@ public class ButtonChanger {
 
     private int status;
     private String[] words = {"Working", "Unstable", "Broken"};
-    private int color;
     private int image;
     private int type;
     private String preamble = " are currently ";
     private String[] typeWords = {"Binary Syncs", "Data Syncs", "Orders", "Reports"};
 
-    public ButtonChanger(int status, int color, int type) {
+    /**
+     * Constructor of the class.
+     * @param status Sets the status, either Working, Unstable, or Broken.
+     * @param type Sets the type, either Binary Sync, Data Sync, Orders, or Reports.
+     */
+
+    public ButtonChanger(int status, int type) {
         this.status=status;
-        this.color=color;
         this.type=type;
     }
+    /**
+     * Constructor of the class. Default is working! Maybe too high of hopes...
+     * @param type Sets the type, either Binary Sync, Data Sync, Orders, or Reports.
+     *
+     */
     public ButtonChanger(int type) {
         this.type=type;
         status = 0;
-        color = R.color.green;
     }
+
+    /**
+     * Advances the status of an object from this class to the next status.
+     */
     public void changeStatus() {
         if (type == 0) {
             if (status == 0) {
@@ -77,13 +89,28 @@ public class ButtonChanger {
 
         }
     }
+
+    /**
+     * gets the status!
+     * @return int that has the most up to date status.
+     */
     public int getStatus() {
         return status;
     }
+
+    /**
+     * what to display in the out going email or on screen.
+     * @return
+     */
     public String getTextStatus() {
 
         return typeWords[type] + preamble + words[status];
     }
+
+    /**
+     * gives back the current type's status image
+     * @return drawable resource addresss
+     */
     public int getImage() {
         return image;
     }

@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -158,7 +159,8 @@ public class MainActivity extends AppCompatActivity {
         insidePopupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editTextIP.getText().toString().length() < 1 || editTextPort.getText().toString().length() < 1) {
+                if (editTextIP.getText().toString().length() < 1
+                        || editTextPort.getText().toString().length() < 1) {
                     hostName = "192.168.1.73";
                     portNumber = 8000;
                 } else {
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 new connectTask().execute("");
 
-                System.out.println(hostName + ":" + portNumber);
+                Log.e("TCP Client", "Submitting to server at " + hostName + ":" + portNumber);
                 popupMessage.dismiss();
 
             }

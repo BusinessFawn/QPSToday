@@ -37,6 +37,10 @@ public class TCPClient {
         }
     }
 
+    /**
+     * Stop the connection between the client and the server.
+     * Prolly gonna use this at some point
+     */
     public void stopClient(){
         mRun = false;
     }
