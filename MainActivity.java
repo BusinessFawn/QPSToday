@@ -201,12 +201,13 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
-
+        //This is my listener for the server to say something back.
+        // Currently, I don't do anything with it but print it to the log.
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
 
-            System.out.println("Server sent something back!" + values);
+            Log.e("Server says","Server sent something back!" + values);
         }
     }
 }
