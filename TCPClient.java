@@ -66,6 +66,17 @@ public class TCPClient {
                 Log.e("TCP Client", "C: Sent.");
 
                 Log.e("TCP Client", "C: Done.");
+                //having trouble implementing the runOnUiThread
+                /*ToDo get the runOnUiThread to work.
+                 */
+                /*runOnUiThread(new Runnable() {
+                    @Override
+                    public void run () {
+                        MainActivity.connectionStatus(1);
+                    }
+                });*/
+
+
 
                 //receive the message which the server sends back
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -94,7 +105,9 @@ public class TCPClient {
                 socket.close();
             }
 
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
 
             Log.e("TCP", "C: Error", e);
 
@@ -106,5 +119,10 @@ public class TCPClient {
     //class at on asynckTask doInBackground
     public interface OnMessageReceived {
         void messageReceived(String message);
+    }
+
+    private void setConnectionText() {
+
+
     }
 }

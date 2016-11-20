@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,8 +30,11 @@ public class MainActivity extends AppCompatActivity {
     private int portNumber;
     LinearLayout layoutOfPopup;
     PopupWindow popupMessage;
-    Button submitTcp, insidePopupButton;
+    Button insidePopupButton;
+    ImageView submitTcp;
     EditText editTextIP, editTextPort;
+    static TextView connectionStatus;
+    static String[] connectionStatusWords = {"Status: Not Connected", "Status: Connected"};
 
     ButtonChanger changerOne;
     ButtonChanger changerTwo;
@@ -50,54 +54,42 @@ public class MainActivity extends AppCompatActivity {
         changerThree = new ButtonChanger(2);
         changerFour = new ButtonChanger(3);
         final ImageView buttonOne = (ImageView) findViewById(R.id.button_one);
-        final TextView textOne = (TextView) findViewById(R.id.title_one);
-        textOne.setText(changerOne.getTextStatus());
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changerOne.changeStatus();
-                textOne.setText(changerOne.getTextStatus());
                 buttonOne.setImageResource(changerOne.getImage());
 
 
             }
         });
         final ImageView buttonTwo = (ImageView) findViewById(R.id.button_two);
-        final TextView textTwo = (TextView) findViewById(R.id.title_two);
-        textTwo.setText(changerTwo.getTextStatus());
         buttonTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changerTwo.changeStatus();
-                textTwo.setText(changerTwo.getTextStatus());
                 buttonTwo.setImageResource(changerTwo.getImage());
             }
         });
 
 
         final ImageView buttonThree = (ImageView) findViewById(R.id.button_three);
-        final TextView textThree = (TextView) findViewById(R.id.title_three);
-        textThree.setText(changerThree.getTextStatus());
         buttonThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changerThree.changeStatus();
-                textThree.setText(changerThree.getTextStatus());
                 buttonThree.setImageResource(changerThree.getImage());
             }
         });
         final ImageView buttonFour = (ImageView) findViewById(R.id.button_four);
-        final TextView textFour = (TextView) findViewById(R.id.title_four);
-        textFour.setText(changerFour.getTextStatus());
         buttonFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changerFour.changeStatus();
-                textFour.setText(changerFour.getTextStatus());
                 buttonFour.setImageResource(changerFour.getImage());
             }
         });
-        Button sendTCP = (Button) findViewById(R.id.send_tcp);
+        ImageView sendTCP = (ImageView) findViewById(R.id.send_tcp);
         sendTCP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button submitTCP = (Button) findViewById(R.id.connect_tcp);
+        ImageView submitTCP = (ImageView) findViewById(R.id.connect_tcp);
         submitTCP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,12 +116,15 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         popupInit();
+
+        connectionStatus = (TextView) findViewById(R.id.connection_status);
+        connectionStatus(0);
     }
 
 
 
     public void init() {
-        submitTcp = (Button) findViewById(R.id.connect_tcp);
+        submitTcp = (ImageView) findViewById(R.id.connect_tcp);
         editTextIP = new EditText(this);
         editTextPort = new EditText(this);
         insidePopupButton = new Button(this);
@@ -181,6 +176,10 @@ public class MainActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
         popupMessage.setContentView(layoutOfPopup);
     }
+    static public void connectionStatus(int status) {
+        connectionStatus.setText(connectionStatusWords[status]);
+    }
+
 
 
     public class connectTask extends AsyncTask<String,String,TCPClient> {
