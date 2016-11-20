@@ -106,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if (mTcpClient != null) {
                     mTcpClient.sendMessage(submitStat);
+                    //Do we want to stop communication after we send the first single?
+
+                    //mTcpClient.stopClient();
                 }
 
             }
