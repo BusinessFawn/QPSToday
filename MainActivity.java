@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextIP, editTextPort;
     static TextView connectionStatus;
     static String[] connectionStatusWords = {"Status: Not Connected", "Status: Connected"};
+    private DBHandler dbHandler = new DBHandler(this);
 
     ButtonChanger changerOne;
     ButtonChanger changerTwo;
@@ -131,8 +132,12 @@ public class MainActivity extends AppCompatActivity {
         layoutOfPopup = new LinearLayout(this);
         editTextIP.setPadding(0, 25, 0, 0);
         insidePopupButton.setText("Send it!");
+        if(!"Not Set".equals(dbHandler.getIpAddress()))
+            editTextIP.setText(dbHandler.getIpAddress());
         editTextIP.setHint("127.0.0.1");
         editTextIP.setInputType(InputType.TYPE_CLASS_PHONE);
+        if(dbHandler.getPort() > 0)
+            editTextPort.setText(String.valueOf(dbHandler.getPort()));
         editTextPort.setHint("8000");
         editTextPort.setInputType(InputType.TYPE_CLASS_NUMBER);
         layoutOfPopup.setOrientation(LinearLayout.VERTICAL);
@@ -164,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     hostName = editTextIP.getText().toString();
                     portNumber = Integer.parseInt(editTextPort.getText().toString());
+                    dbHandler.addIP(hostName,portNumber);
                 }
                 new connectTask().execute("");
 
