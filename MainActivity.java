@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -94,15 +95,19 @@ public class MainActivity extends AppCompatActivity {
         sendTCP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String submitStat = changerOne.getStatus() + ", " + changerTwo.getStatus() + ", "
+
+                new connectTask().execute("");
+                submitStat = changerOne.getStatus() + ", " + changerTwo.getStatus() + ", "
                         + changerThree.getStatus() + ", " + changerFour.getStatus();
 
-                if (mTcpClient != null) {
-                    mTcpClient.sendMessage(submitStat);
+                System.out.println("This happened " + submitStat);
+
+//                if (mTcpClient != null)
+//                    mTcpClient.sendMessage(submitStat);
                     //Do we want to stop communication after we send the first single?
 
                     //mTcpClient.stopClient();
-                }
+
 
             }
         });
@@ -133,11 +138,13 @@ public class MainActivity extends AppCompatActivity {
         editTextIP.setPadding(0, 25, 0, 0);
         insidePopupButton.setText("Send it!");
         if(!"Not Set".equals(dbHandler.getIpAddress()))
-            editTextIP.setText(dbHandler.getIpAddress());
+            hostName = dbHandler.getIpAddress();
+            editTextIP.setText(hostName);
         editTextIP.setHint("127.0.0.1");
         editTextIP.setInputType(InputType.TYPE_CLASS_PHONE);
         if(dbHandler.getPort() > 0)
-            editTextPort.setText(String.valueOf(dbHandler.getPort()));
+            portNumber = dbHandler.getPort();
+            editTextPort.setText(String.valueOf(portNumber));
         editTextPort.setHint("8000");
         editTextPort.setInputType(InputType.TYPE_CLASS_NUMBER);
         layoutOfPopup.setOrientation(LinearLayout.VERTICAL);
@@ -164,18 +171,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (editTextIP.getText().toString().length() < 1
                         || editTextPort.getText().toString().length() < 1) {
-                    hostName = "192.168.1.73";
-                    portNumber = 8000;
+
+                    Toast.makeText(getApplicationContext(),"Input for IP and Port are required", Toast.LENGTH_LONG).show();
                 } else {
                     hostName = editTextIP.getText().toString();
                     portNumber = Integer.parseInt(editTextPort.getText().toString());
                     dbHandler.addIP(hostName,portNumber);
+                    popupMessage.dismiss();
                 }
-                new connectTask().execute("");
-
-                Log.e("TCP Client", "Submitting to server at " + hostName + ":" + portNumber);
-                popupMessage.dismiss();
-
             }
         });
         popupMessage = new PopupWindow(layoutOfPopup,
@@ -202,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     publishProgress(message);
                 }
             }, hostName, portNumber);
-            mTcpClient.run();
+            mTcpClient.run(submitStat);
 
             return null;
         }

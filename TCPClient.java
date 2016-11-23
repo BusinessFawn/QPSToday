@@ -45,7 +45,7 @@ public class TCPClient {
         mRun = false;
     }
 
-    public void run() {
+    public void run(String message) {
 
         mRun = true;
 
@@ -66,6 +66,8 @@ public class TCPClient {
                 Log.e("TCP Client", "C: Sent.");
 
                 Log.e("TCP Client", "C: Done.");
+                sendMessage(message);
+
                 //having trouble implementing the runOnUiThread
                 /*ToDo get the runOnUiThread to work.
                  */
