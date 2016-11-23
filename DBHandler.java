@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.Settings;
 
 public class DBHandler extends SQLiteOpenHelper {
     // Database Version
@@ -51,9 +52,11 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(PORT, port);
         if(cursor.getCount() < 1) {
             dbWrite.insert(TABLE_ADDRESSES, null, values);
+            System.out.println("It was an insert");
         } else {
             dbWrite.update(TABLE_ADDRESSES, values, IP_ID + " = ?",
-                    new String[]{"1"});
+                    new String[]{"0"});
+            System.out.println("it was an update");
 
         }
         cursor.close();
@@ -64,15 +67,18 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase dbRead = this.getReadableDatabase();
         String ipAddress;
 
-        Cursor cursor = dbRead.query(TABLE_ADDRESSES, new String[]{IP_ADDRESS}, IP_ID + "=?",
-                new String[]{String.valueOf(0)},null,null,null);
-        if(cursor != null)
-            cursor.moveToFirst();
-        if(cursor.getCount() < 1) {
-            ipAddress = "Not Set";
+        String query = "SELECT * FROM " + TABLE_ADDRESSES;
+
+        Cursor cursor = dbRead.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            if (cursor.getCount() < 1) {
+                ipAddress = "Not Set";
+            } else {
+                ipAddress = cursor.getString(1);
+            }
         }
         else {
-            ipAddress = cursor.getString(1);
+            ipAddress = "Not Set";
         }
         cursor.close();
         dbRead.close();
@@ -82,16 +88,16 @@ public class DBHandler extends SQLiteOpenHelper {
     public int getPort() {
         SQLiteDatabase dbRead = this.getReadableDatabase();
         int port;
-
-        Cursor cursor = dbRead.query(TABLE_ADDRESSES, new String[]{PORT}, IP_ID + "=?",
-                new String[]{String.valueOf(0)},null,null,null);
-        if(cursor != null)
-            cursor.moveToFirst();
-        if(cursor.getCount() < 1) {
+        String query = "SELECT * FROM " + TABLE_ADDRESSES;
+        Cursor cursor = dbRead.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            if (cursor.getCount() < 1) {
+                port = -1;
+            } else {
+                port = Integer.parseInt(cursor.getString(2));
+            }
+        } else {
             port = -1;
-        }
-        else {
-            port = Integer.parseInt(cursor.getString(2));
         }
 
         return port;
