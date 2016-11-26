@@ -22,7 +22,9 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String IP_ADDRESS = "ipAddress";
     private static final String PORT = "port";
 
-    public DBHandler(Context context) {
+    private String[] selectingNum = {"1"};
+
+    public DBHandler(MainActivity context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override
@@ -54,8 +56,7 @@ public class DBHandler extends SQLiteOpenHelper {
             dbWrite.insert(TABLE_ADDRESSES, null, values);
             System.out.println("It was an insert");
         } else {
-            dbWrite.update(TABLE_ADDRESSES, values, IP_ID + " = ?",
-                    new String[]{"0"});
+            dbWrite.update(TABLE_ADDRESSES, values, IP_ID + " = ?", selectingNum);
             System.out.println("it was an update");
 
         }
@@ -99,7 +100,7 @@ public class DBHandler extends SQLiteOpenHelper {
         } else {
             port = -1;
         }
-
+        cursor.close();
         return port;
 
     }
